@@ -1,1 +1,125 @@
+
+<style>
+  .board { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; width: 240px; margin: 0 auto; }
+  .cell {
+    width: 72px; height: 72px; border-radius: var(--border-radius-md);
+    border: 0.5px solid var(--color-border-secondary);
+    background: var(--color-background-primary);
+    font-size: 28px; font-weight: 500; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.12s;
+    color: var(--color-text-primary);
+  }
+  .cell:hover:not(.taken) { background: var(--color-background-secondary); }
+  .cell.taken { cursor: default; }
+  .cell.x { color: #534AB7; }
+  .cell.o { color: #0F6E56; }
+  .cell.win { background: var(--color-background-secondary); }
+  #status { text-align: center; font-size: 15px; color: var(--color-text-secondary); margin-bottom: 16px; min-height: 22px; }
+  #turn-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 6px; vertical-align: 2px; }
+  #reset {
+    display: block; margin: 20px auto 0; padding: 6px 20px;
+    border: 0.5px solid var(--color-border-secondary); border-radius: var(--border-radius-md);
+    background: transparent; cursor: pointer; font-size: 14px;
+    color: var(--color-text-primary);
+  }
+  #reset:hover { background: var(--color-background-secondary); }
+  #scoreboard { display: flex; gap: 24px; justify-content: center; margin: 24px 0 20px; }
+  .score-item { text-align: center; }
+  .score-label { font-size: 12px; color: var(--color-text-secondary); }
+  .score-val { font-size: 22px; font-weight: 500; }
+  .score-val.x { color: #534AB7; }
+  .score-val.o { color: #0F6E56; }
+  .score-val.d { color: var(--color-text-secondary); }
+</style>
+
+<h2 class="sr-only" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)">Tic Tac Toe game — click a cell to play</h2>
+
+<div id="scoreboard">
+  <div class="score-item"><div class="score-label">X</div><div class="score-val x" id="score-x">0</div></div>
+  <div class="score-item"><div class="score-label">Draws</div><div class="score-val d" id="score-d">0</div></div>
+  <div class="score-item"><div class="score-label">O</div><div class="score-val o" id="score-o">0</div></div>
+</div>
+
+<div id="status"><span id="turn-dot"></span><span id="status-text">X's turn</span></div>
+
+<div class="board" id="board">
+  <button class="cell" data-i="0"></button>
+  <button class="cell" data-i="1"></button>
+  <button class="cell" data-i="2"></button>
+  <button class="cell" data-i="3"></button>
+  <button class="cell" data-i="4"></button>
+  <button class="cell" data-i="5"></button>
+  <button class="cell" data-i="6"></button>
+  <button class="cell" data-i="7"></button>
+  <button class="cell" data-i="8"></button>
+</div>
+
+<button id="reset">New game</button>
+
+<script>
+  const wins = [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
+  let board, turn, over, scores = {X:0, O:0, D:0};
+  const cells = document.querySelectorAll('.cell');
+  const dot = document.getElementById('turn-dot');
+  const statusText = document.getElementById('status-text');
+
+  function setStatus(msg, color) {
+    statusText.textContent = msg;
+    dot.style.background = color || 'transparent';
+  }
+
+  function checkWin() {
+    for (const [a,b,c] of wins) {
+      if (board[a] && board[a] === board[b] && board[a] === board[c]) return [a,b,c];
+    }
+    return null;
+  }
+
+  function render() {
+    cells.forEach((cell, i) => {
+      cell.textContent = board[i] || '';
+      cell.className = 'cell' + (board[i] ? ' taken ' + board[i].toLowerCase() : '');
+    });
+    document.getElementById('score-x').textContent = scores.X;
+    document.getElementById('score-o').textContent = scores.O;
+    document.getElementById('score-d').textContent = scores.D;
+  }
+
+  function init() {
+    board = Array(9).fill('');
+    turn = 'X';
+    over = false;
+    render();
+    setStatus("X's turn", '#534AB7');
+  }
+
+  cells.forEach(cell => {
+    cell.addEventListener('click', () => {
+      const i = +cell.dataset.i;
+      if (over || board[i]) return;
+      board[i] = turn;
+      render();
+      const win = checkWin();
+      if (win) {
+        win.forEach(j => cells[j].classList.add('win'));
+        scores[turn]++;
+        render();
+        setStatus(turn + ' wins!', turn === 'X' ? '#534AB7' : '#0F6E56');
+        over = true;
+      } else if (board.every(Boolean)) {
+        scores.D++;
+        render();
+        setStatus("It's a draw", '#888780');
+        over = true;
+      } else {
+        turn = turn === 'X' ? 'O' : 'X';
+        setStatus(turn + "'s turn", turn === 'X' ? '#534AB7' : '#0F6E56');
+      }
+    });
+  });
+
+  document.getElementById('reset').addEventListener('click', init);
+  init();
+</script>
 <h1> hello there </h1>
