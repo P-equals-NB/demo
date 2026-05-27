@@ -1,123 +1,110 @@
+
 <style>
-  .board { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; width: 240px; margin: 0 auto; }
-  .cell {
-    width: 72px; height: 72px; border-radius: var(--border-radius-md);
-    border: 0.5px solid var(--color-border-secondary);
-    background: var(--color-background-primary);
-    font-size: 28px; font-weight: 500; cursor: pointer;
-    display: flex; align-items: center; justify-content: center;
-    transition: background 0.12s;
-    color: var(--color-text-primary);
-  }
-  .cell:hover:not(.taken) { background: var(--color-background-secondary); }
-  .cell.taken { cursor: default; }
-  .cell.x { color: #534AB7; }
-  .cell.o { color: #0F6E56; }
-  .cell.win { background: var(--color-background-secondary); }
-  #status { text-align: center; font-size: 15px; color: var(--color-text-secondary); margin-bottom: 16px; min-height: 22px; }
-  #turn-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 6px; vertical-align: 2px; }
-  #reset {
-    display: block; margin: 20px auto 0; padding: 6px 20px;
-    border: 0.5px solid var(--color-border-secondary); border-radius: var(--border-radius-md);
-    background: transparent; cursor: pointer; font-size: 14px;
-    color: var(--color-text-primary);
-  }
-  #reset:hover { background: var(--color-background-secondary); }
-  #scoreboard { display: flex; gap: 24px; justify-content: center; margin: 24px 0 20px; }
-  .score-item { text-align: center; }
-  .score-label { font-size: 12px; color: var(--color-text-secondary); }
-  .score-val { font-size: 22px; font-weight: 500; }
-  .score-val.x { color: #534AB7; }
-  .score-val.o { color: #0F6E56; }
-  .score-val.d { color: var(--color-text-secondary); }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: var(--font-sans); color: var(--color-text-primary); }
+  nav { display: flex; align-items: center; justify-content: space-between; padding: 16px 24px; border-bottom: 0.5px solid var(--color-border-tertiary); background: var(--color-background-primary); }
+  .nav-logo { font-size: 16px; font-weight: 500; }
+  .nav-links { display: flex; gap: 20px; }
+  .nav-links a { font-size: 14px; color: var(--color-text-secondary); text-decoration: none; }
+  .nav-links a:hover { color: var(--color-text-primary); }
+  .nav-cta { font-size: 13px; padding: 6px 16px; border: 0.5px solid var(--color-border-secondary); border-radius: var(--border-radius-md); background: transparent; cursor: pointer; color: var(--color-text-primary); }
+  .nav-cta:hover { background: var(--color-background-secondary); }
+  .hero { padding: 64px 24px 56px; text-align: center; border-bottom: 0.5px solid var(--color-border-tertiary); }
+  .hero-badge { display: inline-block; font-size: 12px; padding: 4px 12px; border-radius: 999px; background: #EEEDFE; color: #3C3489; margin-bottom: 20px; }
+  .hero h1 { font-size: 36px; font-weight: 500; line-height: 1.25; max-width: 520px; margin: 0 auto 16px; color: var(--color-text-primary); }
+  .hero p { font-size: 15px; color: var(--color-text-secondary); max-width: 420px; margin: 0 auto 28px; line-height: 1.7; }
+  .hero-actions { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+  .btn-primary { padding: 9px 20px; font-size: 14px; background: #534AB7; color: #EEEDFE; border: none; border-radius: var(--border-radius-md); cursor: pointer; }
+  .btn-primary:hover { background: #3C3489; }
+  .btn-secondary { padding: 9px 20px; font-size: 14px; background: transparent; color: var(--color-text-primary); border: 0.5px solid var(--color-border-secondary); border-radius: var(--border-radius-md); cursor: pointer; }
+  .btn-secondary:hover { background: var(--color-background-secondary); }
+  .features { padding: 48px 24px; border-bottom: 0.5px solid var(--color-border-tertiary); }
+  .features-label { font-size: 12px; color: var(--color-text-tertiary); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 32px; text-align: center; }
+  .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 16px; }
+  .feature-card { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 20px; }
+  .feature-icon { width: 36px; height: 36px; border-radius: var(--border-radius-md); background: #EEEDFE; display: flex; align-items: center; justify-content: center; margin-bottom: 14px; }
+  .feature-icon i { font-size: 18px; color: #534AB7; }
+  .feature-card h3 { font-size: 14px; font-weight: 500; margin-bottom: 6px; color: var(--color-text-primary); }
+  .feature-card p { font-size: 13px; color: var(--color-text-secondary); line-height: 1.6; }
+  .stats { display: grid; grid-template-columns: repeat(3, 1fr); border-bottom: 0.5px solid var(--color-border-tertiary); }
+  .stat { padding: 32px 24px; text-align: center; border-right: 0.5px solid var(--color-border-tertiary); }
+  .stat:last-child { border-right: none; }
+  .stat-num { font-size: 28px; font-weight: 500; color: var(--color-text-primary); }
+  .stat-label { font-size: 13px; color: var(--color-text-secondary); margin-top: 4px; }
+  .cta-section { padding: 56px 24px; text-align: center; }
+  .cta-section h2 { font-size: 24px; font-weight: 500; margin-bottom: 12px; color: var(--color-text-primary); }
+  .cta-section p { font-size: 14px; color: var(--color-text-secondary); margin-bottom: 24px; }
+  footer { padding: 20px 24px; border-top: 0.5px solid var(--color-border-tertiary); display: flex; justify-content: space-between; align-items: center; }
+  footer p { font-size: 13px; color: var(--color-text-tertiary); }
+  .footer-links { display: flex; gap: 16px; }
+  .footer-links a { font-size: 13px; color: var(--color-text-tertiary); text-decoration: none; }
+  .footer-links a:hover { color: var(--color-text-secondary); }
 </style>
 
-<h2 class="sr-only" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)">Tic Tac Toe game — click a cell to play</h2>
+<nav>
+  <span class="nav-logo"><i class="ti ti-bolt" aria-hidden="true" style="font-size:16px; color:#534AB7; margin-right:6px; vertical-align:-2px"></i>Arcana</span>
+  <div class="nav-links">
+    <a href="#">Product</a>
+    <a href="#">Pricing</a>
+    <a href="#">Docs</a>
+    <a href="#">Blog</a>
+  </div>
+  <button class="nav-cta">Sign in</button>
+</nav>
 
-<div id="scoreboard">
-  <div class="score-item"><div class="score-label">X</div><div class="score-val x" id="score-x">0</div></div>
-  <div class="score-item"><div class="score-label">Draws</div><div class="score-val d" id="score-d">0</div></div>
-  <div class="score-item"><div class="score-label">O</div><div class="score-val o" id="score-o">0</div></div>
-</div>
+<section class="hero">
+  <div class="hero-badge">Now in public beta</div>
+  <h1>Build faster with less friction</h1>
+  <p>Arcana gives your team the tools to ship products without getting bogged down in boilerplate.</p>
+  <div class="hero-actions">
+    <button class="btn-primary">Get started free</button>
+    <button class="btn-secondary">See how it works</button>
+  </div>
+</section>
 
-<div id="status"><span id="turn-dot"></span><span id="status-text">X's turn</span></div>
+<section class="features">
+  <p class="features-label">Everything you need</p>
+  <div class="features-grid">
+    <div class="feature-card">
+      <div class="feature-icon"><i class="ti ti-rocket" aria-hidden="true"></i></div>
+      <h3>Fast deployment</h3>
+      <p>Push to production in seconds with zero-config pipelines.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon"><i class="ti ti-shield-check" aria-hidden="true"></i></div>
+      <h3>Built-in security</h3>
+      <p>End-to-end encryption and SOC 2 compliance out of the box.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon"><i class="ti ti-chart-bar" aria-hidden="true"></i></div>
+      <h3>Real-time analytics</h3>
+      <p>Monitor performance and usage with live dashboards.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon"><i class="ti ti-puzzle" aria-hidden="true"></i></div>
+      <h3>Integrations</h3>
+      <p>Connect to 100+ tools with one-click setup.</p>
+    </div>
+  </div>
+</section>
 
-<div class="board" id="board">
-  <button class="cell" data-i="0"></button>
-  <button class="cell" data-i="1"></button>
-  <button class="cell" data-i="2"></button>
-  <button class="cell" data-i="3"></button>
-  <button class="cell" data-i="4"></button>
-  <button class="cell" data-i="5"></button>
-  <button class="cell" data-i="6"></button>
-  <button class="cell" data-i="7"></button>
-  <button class="cell" data-i="8"></button>
-</div>
+<section class="stats">
+  <div class="stat"><div class="stat-num">12k+</div><div class="stat-label">Teams using Arcana</div></div>
+  <div class="stat"><div class="stat-num">99.9%</div><div class="stat-label">Uptime SLA</div></div>
+  <div class="stat"><div class="stat-num">4.9 / 5</div><div class="stat-label">Average rating</div></div>
+</section>
 
-<button id="reset">New game</button>
+<section class="cta-section">
+  <h2>Ready to get started?</h2>
+  <p>No credit card required. Free for up to 3 projects.</p>
+  <button class="btn-primary">Create your account</button>
+</section>
 
-<script>
-  const wins = [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
-  let board, turn, over, scores = {X:0, O:0, D:0};
-  const cells = document.querySelectorAll('.cell');
-  const dot = document.getElementById('turn-dot');
-  const statusText = document.getElementById('status-text');
-
-  function setStatus(msg, color) {
-    statusText.textContent = msg;
-    dot.style.background = color || 'transparent';
-  }
-
-  function checkWin() {
-    for (const [a,b,c] of wins) {
-      if (board[a] && board[a] === board[b] && board[a] === board[c]) return [a,b,c];
-    }
-    return null;
-  }
-
-  function render() {
-    cells.forEach((cell, i) => {
-      cell.textContent = board[i] || '';
-      cell.className = 'cell' + (board[i] ? ' taken ' + board[i].toLowerCase() : '');
-    });
-    document.getElementById('score-x').textContent = scores.X;
-    document.getElementById('score-o').textContent = scores.O;
-    document.getElementById('score-d').textContent = scores.D;
-  }
-
-  function init() {
-    board = Array(9).fill('');
-    turn = 'X';
-    over = false;
-    render();
-    setStatus("X's turn", '#534AB7');
-  }
-
-  cells.forEach(cell => {
-    cell.addEventListener('click', () => {
-      const i = +cell.dataset.i;
-      if (over || board[i]) return;
-      board[i] = turn;
-      render();
-      const win = checkWin();
-      if (win) {
-        win.forEach(j => cells[j].classList.add('win'));
-        scores[turn]++;
-        render();
-        setStatus(turn + ' wins!', turn === 'X' ? '#534AB7' : '#0F6E56');
-        over = true;
-      } else if (board.every(Boolean)) {
-        scores.D++;
-        render();
-        setStatus("It's a draw", '#888780');
-        over = true;
-      } else {
-        turn = turn === 'X' ? 'O' : 'X';
-        setStatus(turn + "'s turn", turn === 'X' ? '#534AB7' : '#0F6E56');
-      }
-    });
-  });
-
-  document.getElementById('reset').addEventListener('click', init);
-  init();
-</script>
+<footer>
+  <p>© 2026 Arcana, Inc.</p>
+  <div class="footer-links">
+    <a href="#">Privacy</a>
+    <a href="#">Terms</a>
+    <a href="#">Contact</a>
+  </div>
+</footer>
