@@ -1,110 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Arcana</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: sans-serif; color: #1a1a1a; background: #fff; }
 
-<style>
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: var(--font-sans); color: var(--color-text-primary); }
-  nav { display: flex; align-items: center; justify-content: space-between; padding: 16px 24px; border-bottom: 0.5px solid var(--color-border-tertiary); background: var(--color-background-primary); }
-  .nav-logo { font-size: 16px; font-weight: 500; }
-  .nav-links { display: flex; gap: 20px; }
-  .nav-links a { font-size: 14px; color: var(--color-text-secondary); text-decoration: none; }
-  .nav-links a:hover { color: var(--color-text-primary); }
-  .nav-cta { font-size: 13px; padding: 6px 16px; border: 0.5px solid var(--color-border-secondary); border-radius: var(--border-radius-md); background: transparent; cursor: pointer; color: var(--color-text-primary); }
-  .nav-cta:hover { background: var(--color-background-secondary); }
-  .hero { padding: 64px 24px 56px; text-align: center; border-bottom: 0.5px solid var(--color-border-tertiary); }
-  .hero-badge { display: inline-block; font-size: 12px; padding: 4px 12px; border-radius: 999px; background: #EEEDFE; color: #3C3489; margin-bottom: 20px; }
-  .hero h1 { font-size: 36px; font-weight: 500; line-height: 1.25; max-width: 520px; margin: 0 auto 16px; color: var(--color-text-primary); }
-  .hero p { font-size: 15px; color: var(--color-text-secondary); max-width: 420px; margin: 0 auto 28px; line-height: 1.7; }
-  .hero-actions { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
-  .btn-primary { padding: 9px 20px; font-size: 14px; background: #534AB7; color: #EEEDFE; border: none; border-radius: var(--border-radius-md); cursor: pointer; }
-  .btn-primary:hover { background: #3C3489; }
-  .btn-secondary { padding: 9px 20px; font-size: 14px; background: transparent; color: var(--color-text-primary); border: 0.5px solid var(--color-border-secondary); border-radius: var(--border-radius-md); cursor: pointer; }
-  .btn-secondary:hover { background: var(--color-background-secondary); }
-  .features { padding: 48px 24px; border-bottom: 0.5px solid var(--color-border-tertiary); }
-  .features-label { font-size: 12px; color: var(--color-text-tertiary); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 32px; text-align: center; }
-  .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 16px; }
-  .feature-card { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 20px; }
-  .feature-icon { width: 36px; height: 36px; border-radius: var(--border-radius-md); background: #EEEDFE; display: flex; align-items: center; justify-content: center; margin-bottom: 14px; }
-  .feature-icon i { font-size: 18px; color: #534AB7; }
-  .feature-card h3 { font-size: 14px; font-weight: 500; margin-bottom: 6px; color: var(--color-text-primary); }
-  .feature-card p { font-size: 13px; color: var(--color-text-secondary); line-height: 1.6; }
-  .stats { display: grid; grid-template-columns: repeat(3, 1fr); border-bottom: 0.5px solid var(--color-border-tertiary); }
-  .stat { padding: 32px 24px; text-align: center; border-right: 0.5px solid var(--color-border-tertiary); }
-  .stat:last-child { border-right: none; }
-  .stat-num { font-size: 28px; font-weight: 500; color: var(--color-text-primary); }
-  .stat-label { font-size: 13px; color: var(--color-text-secondary); margin-top: 4px; }
-  .cta-section { padding: 56px 24px; text-align: center; }
-  .cta-section h2 { font-size: 24px; font-weight: 500; margin-bottom: 12px; color: var(--color-text-primary); }
-  .cta-section p { font-size: 14px; color: var(--color-text-secondary); margin-bottom: 24px; }
-  footer { padding: 20px 24px; border-top: 0.5px solid var(--color-border-tertiary); display: flex; justify-content: space-between; align-items: center; }
-  footer p { font-size: 13px; color: var(--color-text-tertiary); }
-  .footer-links { display: flex; gap: 16px; }
-  .footer-links a { font-size: 13px; color: var(--color-text-tertiary); text-decoration: none; }
-  .footer-links a:hover { color: var(--color-text-secondary); }
-</style>
+    nav { display: flex; align-items: center; justify-content: space-between; padding: 16px 24px; border-bottom: 1px solid #e5e5e5; }
+    .nav-logo { font-size: 16px; font-weight: 500; display: flex; align-items: center; gap: 6px; }
+    .nav-logo img { width: 18px; height: 18px; }
+    .nav-links { display: flex; gap: 20px; }
+    .nav-links a { font-size: 14px; color: #555; text-decoration: none; }
+    .nav-links a:hover { color: #1a1a1a; }
+    .nav-cta { font-size: 13px; padding: 6px 16px; border: 1px solid #ccc; border-radius: 8px; background: transparent; cursor: pointer; }
+    .nav-cta:hover { background: #f5f5f5; }
 
-<nav>
-  <span class="nav-logo"><i class="ti ti-bolt" aria-hidden="true" style="font-size:16px; color:#534AB7; margin-right:6px; vertical-align:-2px"></i>Arcana</span>
-  <div class="nav-links">
-    <a href="#">Product</a>
-    <a href="#">Pricing</a>
-    <a href="#">Docs</a>
-    <a href="#">Blog</a>
-  </div>
-  <button class="nav-cta">Sign in</button>
-</nav>
+    .hero { padding: 64px 24px 56px; text-align: center; border-bottom: 1px solid #e5e5e5; }
+    .hero-badge { display: inline-block; font-size: 12px; padding: 4px 12px; border-radius: 999px; background: #EEEDFE; color: #3C3489; margin-bottom: 20px; }
+    .hero h1 { font-size: 36px; font-weight: 500; line-height: 1.25; max-width: 520px; margin: 0 auto 16px; }
+    .hero p { font-size: 15px; color: #555; max-width: 420px; margin: 0 auto 28px; line-height: 1.7; }
+    .hero-actions { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+    .btn-primary { padding: 9px 20px; font-size: 14px; background: #534AB7; color: #EEEDFE; border: none; border-radius: 8px; cursor: pointer; }
+    .btn-primary:hover { background: #3C3489; }
+    .btn-secondary { padding: 9px 20px; font-size: 14px; background: transparent; color: #1a1a1a; border: 1px solid #ccc; border-radius: 8px; cursor: pointer; }
+    .btn-secondary:hover { background: #f5f5f5; }
 
-<section class="hero">
-  <div class="hero-badge">Now in public beta</div>
-  <h1>Build faster with less friction</h1>
-  <p>Arcana gives your team the tools to ship products without getting bogged down in boilerplate.</p>
-  <div class="hero-actions">
-    <button class="btn-primary">Get started free</button>
-    <button class="btn-secondary">See how it works</button>
-  </div>
-</section>
+    .features { padding: 48px 24px; border-bottom: 1px solid #e5e5e5; }
+    .features-label { font-size: 12px; color: #999; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 32px; text-align: center; }
+    .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 16px; }
+    .feature-card { background: #fff; border: 1px solid #e5e5e5; border-radius: 12px; padding: 20px; }
+    .feature-icon { width: 36px; height: 36px; border-radius: 8px; background: #EEEDFE; display: flex; align-items: center; justify-content: center; margin-bottom: 14px; }
+    .feature-icon img { width: 20px; height: 20px; }
+    .feature-card h3 { font-size: 14px; font-weight: 500; margin-bottom: 6px; }
+    .feature-card p { font-size: 13px; color: #555; line-height: 1.6; }
 
-<section class="features">
-  <p class="features-label">Everything you need</p>
-  <div class="features-grid">
-    <div class="feature-card">
-      <div class="feature-icon"><i class="ti ti-rocket" aria-hidden="true"></i></div>
-      <h3>Fast deployment</h3>
-      <p>Push to production in seconds with zero-config pipelines.</p>
+    .stats { display: grid; grid-template-columns: repeat(3, 1fr); border-bottom: 1px solid #e5e5e5; }
+    .stat { padding: 32px 24px; text-align: center; border-right: 1px solid #e5e5e5; }
+    .stat:last-child { border-right: none; }
+    .stat-num { font-size: 28px; font-weight: 500; }
+    .stat-label { font-size: 13px; color: #555; margin-top: 4px; }
+
+    .cta-section { padding: 56px 24px; text-align: center; }
+    .cta-section h2 { font-size: 24px; font-weight: 500; margin-bottom: 12px; }
+    .cta-section p { font-size: 14px; color: #555; margin-bottom: 24px; }
+
+    footer { padding: 20px 24px; border-top: 1px solid #e5e5e5; display: flex; justify-content: space-between; align-items: center; }
+    footer p { font-size: 13px; color: #999; }
+    .footer-links { display: flex; gap: 16px; }
+    .footer-links a { font-size: 13px; color: #999; text-decoration: none; }
+    .footer-links a:hover { color: #555; }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <span class="nav-logo">
+      <img src="images/bolt.png" alt="">
+      Arcana
+    </span>
+    <div class="nav-links">
+      <a href="#">Product</a>
+      <a href="#">Pricing</a>
+      <a href="#">Docs</a>
+      <a href="#">Blog</a>
     </div>
-    <div class="feature-card">
-      <div class="feature-icon"><i class="ti ti-shield-check" aria-hidden="true"></i></div>
-      <h3>Built-in security</h3>
-      <p>End-to-end encryption and SOC 2 compliance out of the box.</p>
-    </div>
-    <div class="feature-card">
-      <div class="feature-icon"><i class="ti ti-chart-bar" aria-hidden="true"></i></div>
-      <h3>Real-time analytics</h3>
-      <p>Monitor performance and usage with live dashboards.</p>
-    </div>
-    <div class="feature-card">
-      <div class="feature-icon"><i class="ti ti-puzzle" aria-hidden="true"></i></div>
-      <h3>Integrations</h3>
-      <p>Connect to 100+ tools with one-click setup.</p>
-    </div>
-  </div>
-</section>
+    <button class="nav-cta">Sign in</button>
+  </nav>
 
-<section class="stats">
-  <div class="stat"><div class="stat-num">12k+</div><div class="stat-label">Teams using Arcana</div></div>
-  <div class="stat"><div class="stat-num">99.9%</div><div class="stat-label">Uptime SLA</div></div>
-  <div class="stat"><div class="stat-num">4.9 / 5</div><div class="stat-label">Average rating</div></div>
-</section>
+  <section class="hero">
+    <div class="hero-badge">Now in public beta</div>
+    <h1>Build faster with less friction</h1>
+    <p>Arcana gives your team the tools to ship products without getting bogged down in boilerplate.</p>
+    <div class="hero-actions">
+      <button class="btn-primary">Get started free</button>
+      <button class="btn-secondary">See how it works</button>
+    </div>
+  </section>
 
-<section class="cta-section">
-  <h2>Ready to get started?</h2>
-  <p>No credit card required. Free for up to 3 projects.</p>
-  <button class="btn-primary">Create your account</button>
-</section>
+  <section class="features">
+    <p class="features-label">Everything you need</p>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon"><img src="images/rocket.png" alt=""></div>
+        <h3>Fast deployment</h3>
+        <p>Push to production in seconds with zero-config pipelines.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon"><img src="images/shield-check.png" alt=""></div>
+        <h3>Built-in security</h3>
+        <p>End-to-end encryption and SOC 2 compliance out of the box.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon"><img src="images/chart-bar.png" alt=""></div>
+        <h3>Real-time analytics</h3>
+        <p>Monitor performance and usage with live dashboards.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon"><img src="images/puzzle.png" alt=""></div>
+        <h3>Integrations</h3>
+        <p>Connect to 100+ tools with one-click setup.</p>
+      </div>
+    </div>
+  </section>
 
-<footer>
-  <p>© 2026 Arcana, Inc.</p>
-  <div class="footer-links">
-    <a href="#">Privacy</a>
-    <a href="#">Terms</a>
-    <a href="#">Contact</a>
-  </div>
-</footer>
+  <section class="stats">
+    <div class="stat">
+      <div class="stat-num">12k+</div>
+      <div class="stat-label">Teams using Arcana</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">99.9%</div>
+      <div class="stat-label">Uptime SLA</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">4.9 / 5</div>
+      <div class="stat-label">Average rating</div>
+    </div>
+  </section>
+
+  <section class="cta-section">
+    <h2>Ready to get started?</h2>
+    <p>No credit card required. Free for up to 3 projects.</p>
+    <button class="btn-primary">Create your account</button>
+  </section>
+
+  <footer>
+    <p>© 2026 Arcana, Inc.</p>
+    <div class="footer-links">
+      <a href="#">Privacy</a>
+      <a href="#">Terms</a>
+      <a href="#">Contact</a>
+    </div>
+  </footer>
+
+</body>
+</html>
